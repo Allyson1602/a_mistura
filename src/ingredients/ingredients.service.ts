@@ -12,6 +12,35 @@ export class IngredientsService {
     private readonly ingredientRepository: Repository<Ingredient>,
   ) {}
 
+  async createMany(
+    createIngredientsDto: CreateIngredientDto[],
+  ): Promise<number[]> {
+    const newIngredients: Ingredient[] = createIngredientsDto.map(
+      (ingredientDto) => {
+        const ingredient = new Ingredient();
+        ingredient.name = ingredientDto.name;
+        ingredient.quantity = ingredientDto.quantity;
+
+        return ingredient;
+      },
+    );
+
+    const ingredientsRaw = (
+      await this.ingredientRepository
+        .createQueryBuilder()
+        .insert()
+        .into('ingredient')
+        .values(newIngredients)
+        .execute()
+    ).raw;
+
+    const ingredientsId: number[] = ingredientsRaw.map((rawItem) => {
+      return rawItem.id;
+    });
+
+    return ingredientsId;
+  }
+
   async create(createIngredientDto: CreateIngredientDto): Promise<Ingredient> {
     const ingredient: Ingredient = new Ingredient();
 
