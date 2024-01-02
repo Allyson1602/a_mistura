@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlatesModule } from './plates/plates.module';
@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { DataSource } from './data-source';
 import { InstructionsModule } from './instructions/instructions.module';
+import { CategoriesService } from './categories/categories.service';
 
 @Module({
   imports: [
@@ -24,4 +25,10 @@ import { InstructionsModule } from './instructions/instructions.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly categoryService: CategoriesService) {}
+
+  async onModuleInit(): Promise<void> {
+    await this.categoryService.createInitialCategories();
+  }
+}
