@@ -7,6 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { DataSource } from './data-source';
+import { InstructionsModule } from './instructions/instructions.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { DataSource } from './data-source';
     IngredientsModule,
     CategoriesModule,
     TypeOrmModule.forRoot(DataSource),
+    InstructionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
