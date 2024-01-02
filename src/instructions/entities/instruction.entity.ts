@@ -1,4 +1,3 @@
-import { Plate } from 'src/plates/entities/plate.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
