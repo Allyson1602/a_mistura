@@ -4,9 +4,21 @@ import { AppService } from './app.service';
 import { PlatesModule } from './plates/plates.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { CategoriesModule } from './categories/categories.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { DataSource } from './data-source';
 
 @Module({
-  imports: [PlatesModule, IngredientsModule, CategoriesModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    PlatesModule,
+    IngredientsModule,
+    CategoriesModule,
+    TypeOrmModule.forRoot(DataSource),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
