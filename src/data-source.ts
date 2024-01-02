@@ -1,4 +1,8 @@
 import { DataSourceOptions } from 'typeorm';
+import { Category } from './categories/entities/category.entity';
+import { Ingredient } from './ingredients/entities/ingredient.entity';
+import { Plate } from './plates/entities/plate.entity';
+import { Instruction } from './instructions/entities/instruction.entity';
 require('dotenv/config');
 
 export const DataSource: DataSourceOptions = {
@@ -8,6 +12,6 @@ export const DataSource: DataSourceOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: ['*'],
+  entities: [Ingredient, Plate, Category, Instruction],
   synchronize: true,
 };
