@@ -12,7 +12,7 @@ export class IngredientsService {
     private readonly ingredientRepository: Repository<Ingredient>,
   ) {}
 
-  async create(createIngredientDto: CreateIngredientDto) {
+  async create(createIngredientDto: CreateIngredientDto): Promise<Ingredient> {
     const ingredient: Ingredient = new Ingredient();
 
     ingredient.name = createIngredientDto.name;
@@ -21,8 +21,10 @@ export class IngredientsService {
     return await this.ingredientRepository.save(ingredient);
   }
 
-  findAll() {
-    return `This action returns all ingredients`;
+  async findAll(): Promise<Ingredient[]> {
+    const ingredients = this.ingredientRepository.find();
+
+    return ingredients;
   }
 
   // findOne(id: number) {
