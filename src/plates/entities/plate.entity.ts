@@ -1,34 +1,41 @@
-import { Category } from "src/categories/entities/category.entity";
-import { Ingredient } from "src/ingredients/entities/ingredient.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Category } from 'src/categories/entities/category.entity';
+import { Ingredient } from 'src/ingredients/entities/ingredient.entity';
+import { Instruction } from 'src/instructions/entities/instruction.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Plate {
-    @PrimaryGeneratedColumn()
-	id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-	name: string;
+  @Column()
+  name: string;
 
-    @Column()
-	image: string;
+  @Column()
+  image: string;
 
-    @Column()
-	ingredients: Ingredient[];
+  @Column()
+  rating: number;
 
-    @Column()
-	categories: Category[];
+  @Column()
+  description: string;
 
-    @Column()
-	rating: number;
+  @ManyToOne(() => Category, (category: Category) => category.plates)
+  category: Category;
 
-    @Column()
-	description: string;
+  @ManyToMany(() => Ingredient)
+  @JoinTable()
+  ingredients: Ingredient[];
 
-    @Column()
-	instructions: string[];
-	
-    @ManyToMany(() => Category)
-    @JoinTable()
-    category_id: Category[];
+  @ManyToMany(() => Instruction)
+  @JoinTable()
+  instructions: Instruction[];
 }
