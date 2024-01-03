@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PlatesService } from './plates.service';
 import { CreatePlateDto } from './dto/create-plate.dto';
 import { UpdatePlateDto } from './dto/update-plate.dto';
@@ -7,10 +15,10 @@ import { UpdatePlateDto } from './dto/update-plate.dto';
 export class PlatesController {
   constructor(private readonly platesService: PlatesService) {}
 
-  // @Post()
-  // create(@Body() createPlateDto: CreatePlateDto) {
-  //   return this.platesService.create(createPlateDto);
-  // }
+  @Post()
+  create(@Body() createPlateDto: CreatePlateDto) {
+    return this.platesService.create(createPlateDto);
+  }
 
   @Get()
   findAll() {
