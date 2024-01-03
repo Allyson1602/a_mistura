@@ -1,27 +1,23 @@
 import { IsNumber, IsString } from 'class-validator';
-import { CreateCategoryDto } from 'src/categories/dto/create-category.dto';
-import { Category } from 'src/categories/entities/category.entity';
 import { CreateIngredientDto } from 'src/ingredients/dto/create-ingredient.dto';
-import { JoinTable, ManyToMany } from 'typeorm';
+import { CreateInstructionDto } from 'src/instructions/dto/create-instruction.dto';
 
 export class CreatePlateDto {
-    @IsString()
-	name: string;
+  @IsString()
+  name: string;
 
-    @IsString()
-	image: string;
+  @IsString()
+  image: string;
 
-	ingredients: CreateIngredientDto[];
+  @IsNumber()
+  rating: number;
 
-	categories: CreateCategoryDto[];
+  @IsString()
+  description: string;
 
-    @IsNumber()
-	rating: number;
+  // categories: number[];
 
-    @IsString()
-	description: string;
+  ingredients: CreateIngredientDto[];
 
-	instructions: string[];
-    
-    category_id: Category[];
+  instructions: CreateInstructionDto[];
 }

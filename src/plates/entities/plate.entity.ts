@@ -27,8 +27,9 @@ export class Plate {
   @Column()
   description: string;
 
-  @ManyToOne(() => Category, (category: Category) => category.plates)
-  category: Category;
+  @ManyToMany(() => Category)
+  @JoinTable()
+  categories: Category[];
 
   @ManyToMany(() => Ingredient)
   @JoinTable()

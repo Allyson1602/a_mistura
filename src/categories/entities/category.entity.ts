@@ -8,7 +8,4 @@ export class Category {
 
   @Column()
   name: string;
-
-  @OneToMany(() => Plate, (plate: Plate) => plate.category)
-  plates: Plate[];
 }
