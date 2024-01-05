@@ -56,6 +56,14 @@ export class IngredientsService {
     return ingredients;
   }
 
+  async findByName(name: string): Promise<Ingredient> {
+    const ingredient = this.ingredientRepository.findOneBy({
+      name: name,
+    });
+
+    return ingredient;
+  }
+
   // findOne(id: number) {
   //   return `This action returns a #${id} ingredient`;
   // }
