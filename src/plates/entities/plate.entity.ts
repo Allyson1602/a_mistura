@@ -6,7 +6,6 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,10 +17,10 @@ export class Plate {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   image: string;
 
-  @Column()
+  @Column('decimal')
   rating: number;
 
   @Column()

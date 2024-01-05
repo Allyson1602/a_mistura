@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DataSource } from './data-source';
 import { InstructionsModule } from './instructions/instructions.module';
 import { CategoriesService } from './categories/categories.service';
+import { OpenaiModule } from './openai/openai.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CategoriesService } from './categories/categories.service';
     CategoriesModule,
     TypeOrmModule.forRoot(DataSource),
     InstructionsModule,
+    OpenaiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

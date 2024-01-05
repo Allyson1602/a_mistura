@@ -15,5 +15,6 @@ import { InstructionsModule } from 'src/instructions/instructions.module';
   ],
   controllers: [PlatesController],
   providers: [PlatesService],
+  exports: [PlatesService],
 })
 export class PlatesModule {}

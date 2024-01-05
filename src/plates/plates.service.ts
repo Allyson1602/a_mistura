@@ -4,8 +4,6 @@ import { UpdatePlateDto } from './dto/update-plate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Plate } from './entities/plate.entity';
 import { Repository } from 'typeorm';
-import { Ingredient } from 'src/ingredients/entities/ingredient.entity';
-import { Instruction } from 'src/instructions/entities/instruction.entity';
 import { IngredientsService } from 'src/ingredients/ingredients.service';
 import { InstructionsService } from 'src/instructions/instructions.service';
 
