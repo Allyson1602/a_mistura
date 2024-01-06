@@ -11,6 +11,7 @@ import { InstructionsModule } from './instructions/instructions.module';
 import { CategoriesService } from './categories/categories.service';
 import { OpenaiModule } from './openai/openai.module';
 import { ImagesPlatesModule } from './images-plates/images-plates.module';
+import { IngredientsService } from './ingredients/ingredients.service';
 
 @Module({
   imports: [
@@ -30,9 +31,13 @@ import { ImagesPlatesModule } from './images-plates/images-plates.module';
   providers: [AppService],
 })
 export class AppModule implements OnModuleInit {
-  constructor(private readonly categoryService: CategoriesService) {}
+  constructor(
+    private readonly categoriesService: CategoriesService,
+    private readonly ingredientsService: IngredientsService,
+  ) {}
 
   async onModuleInit(): Promise<void> {
-    await this.categoryService.createInitialCategories();
+    await this.categoriesService.createInitialCategories();
+    await this.ingredientsService.createInitialIngredients();
   }
 }

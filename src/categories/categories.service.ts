@@ -67,7 +67,7 @@ export class CategoriesService {
 
       if (!existingCategory) {
         const newCategory = this.categoryRepository.create(categoryData);
-        await this.categoryRepository.save(newCategory);
+        this.categoryRepository.save(newCategory);
       }
     }
   }
