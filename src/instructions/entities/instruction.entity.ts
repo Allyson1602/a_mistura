@@ -1,3 +1,4 @@
+import { Plate } from 'src/plates/entities/plate.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -7,4 +8,7 @@ export class Instruction {
 
   @Column()
   description: string;
+
+  @ManyToOne(() => Plate, (plate) => plate.instructions)
+  plate: Plate;
 }
