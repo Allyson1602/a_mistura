@@ -10,6 +10,7 @@ import { DataSource } from './data-source';
 import { InstructionsModule } from './instructions/instructions.module';
 import { CategoriesService } from './categories/categories.service';
 import { OpenaiModule } from './openai/openai.module';
+import { ImagesPlatesModule } from './images-plates/images-plates.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { OpenaiModule } from './openai/openai.module';
     TypeOrmModule.forRoot(DataSource),
     InstructionsModule,
     OpenaiModule,
+    ImagesPlatesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

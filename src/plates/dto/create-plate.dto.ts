@@ -1,4 +1,5 @@
 import { IsNumber, IsString } from 'class-validator';
+import { CreateImagePlateDto } from 'src/images-plates/dto/create-image-plate.dto';
 import { CreateIngredientDto } from 'src/ingredients/dto/create-ingredient.dto';
 import { CreateInstructionDto } from 'src/instructions/dto/create-instruction.dto';
 
@@ -7,7 +8,7 @@ export class CreatePlateDto {
   name: string;
 
   @IsString()
-  image: string;
+  image: CreateImagePlateDto;
 
   @IsNumber()
   rating: number;

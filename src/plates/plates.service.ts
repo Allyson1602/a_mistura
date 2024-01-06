@@ -6,6 +6,7 @@ import { Plate } from './entities/plate.entity';
 import { Repository } from 'typeorm';
 import { IngredientsService } from 'src/ingredients/ingredients.service';
 import { InstructionsService } from 'src/instructions/instructions.service';
+import { ImagesPlatesService } from 'src/images-plates/images-plates.service';
 
 @Injectable()
 export class PlatesService {
@@ -16,6 +17,8 @@ export class PlatesService {
     private readonly ingredientsService: IngredientsService,
     @Inject(InstructionsService)
     private readonly instructionsService: InstructionsService,
+    @Inject(ImagesPlatesService)
+    private readonly imagesPlatesService: ImagesPlatesService,
   ) {}
 
   async create(createPlateDto: CreatePlateDto) {
@@ -35,11 +38,13 @@ export class PlatesService {
       },
     );
 
+    const imagePlate = this.imagesPlatesService.create(createPlateDto.image);
+
     const plate: Plate = new Plate();
     plate.name = createPlateDto.name;
-    plate.image = createPlateDto.image;
     plate.rating = createPlateDto.rating;
     plate.description = createPlateDto.description;
+    plate.image = await imagePlate;
     plate.ingredients = await Promise.all(ingredientsQuery);
     plate.instructions = await Promise.all(instructionsQuery);
 

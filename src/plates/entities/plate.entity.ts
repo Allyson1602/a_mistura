@@ -1,11 +1,15 @@
 import { Category } from 'src/categories/entities/category.entity';
+import { ImagePlate } from 'src/images-plates/entities/image-plate.entity';
 import { Ingredient } from 'src/ingredients/entities/ingredient.entity';
 import { Instruction } from 'src/instructions/entities/instruction.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,8 +21,9 @@ export class Plate {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  image: string;
+  @OneToOne(() => ImagePlate)
+  @JoinColumn()
+  image: ImagePlate;
 
   @Column('decimal')
   rating: number;
@@ -34,7 +39,6 @@ export class Plate {
   @JoinTable()
   ingredients: Ingredient[];
 
-  @ManyToMany(() => Instruction)
-  @JoinTable()
+  @OneToMany(() => Instruction, (instruction) => instruction.plate)
   instructions: Instruction[];
 }

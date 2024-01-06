@@ -5,6 +5,7 @@ import { Plate } from './entities/plate.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IngredientsModule } from 'src/ingredients/ingredients.module';
 import { InstructionsModule } from 'src/instructions/instructions.module';
+import { ImagesPlatesModule } from 'src/images-plates/images-plates.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { InstructionsModule } from 'src/instructions/instructions.module';
     PlatesModule,
     IngredientsModule,
     InstructionsModule,
+    ImagesPlatesModule,
   ],
   controllers: [PlatesController],
   providers: [PlatesService],
