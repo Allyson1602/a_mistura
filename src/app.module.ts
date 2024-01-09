@@ -12,6 +12,8 @@ import { CategoriesService } from './categories/categories.service';
 import { OpenaiModule } from './openai/openai.module';
 import { ImagesPlatesModule } from './images-plates/images-plates.module';
 import { IngredientsService } from './ingredients/ingredients.service';
+import { IngredientPlatesModule } from './ingredient-plates/ingredient-plates.module';
+import { BardAiModule } from './bard-ai/bard-ai.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { IngredientsService } from './ingredients/ingredients.service';
     InstructionsModule,
     OpenaiModule,
     ImagesPlatesModule,
+    IngredientPlatesModule,
+    BardAiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
