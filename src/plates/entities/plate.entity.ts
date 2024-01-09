@@ -1,5 +1,6 @@
 import { Category } from 'src/categories/entities/category.entity';
 import { ImagePlate } from 'src/images-plates/entities/image-plate.entity';
+import { IngredientPlate } from 'src/ingredient-plates/entities/ingredient-plate.entity';
 import { Ingredient } from 'src/ingredients/entities/ingredient.entity';
 import { Instruction } from 'src/instructions/entities/instruction.entity';
 import {
@@ -35,9 +36,9 @@ export class Plate {
   @JoinTable()
   categories: Category[];
 
-  @ManyToMany(() => Ingredient)
+  @ManyToMany(() => IngredientPlate)
   @JoinTable()
-  ingredients: Ingredient[];
+  ingredientPlates: IngredientPlate[];
 
   @OneToMany(() => Instruction, (instruction) => instruction.plate)
   instructions: Instruction[];

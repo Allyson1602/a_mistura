@@ -7,7 +7,4 @@ export class Ingredient {
 
   @Column()
   name: string;
-
-  @Column({ nullable: true })
-  quantity: string;
 }
