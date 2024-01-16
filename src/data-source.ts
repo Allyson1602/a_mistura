@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { DataSourceOptions } from 'typeorm';
 import { Category } from './categories/entities/category.entity';
 import { Ingredient } from './ingredients/entities/ingredient.entity';
@@ -5,7 +6,7 @@ import { Plate } from './plates/entities/plate.entity';
 import { Instruction } from './instructions/entities/instruction.entity';
 import { ImagePlate } from './images-plates/entities/image-plate.entity';
 import { IngredientPlate } from './ingredient-plates/entities/ingredient-plate.entity';
-require('dotenv/config');
+import { readFileSync } from 'fs';
 
 export const DataSource: DataSourceOptions = {
   type: 'postgres',
@@ -23,4 +24,7 @@ export const DataSource: DataSourceOptions = {
     IngredientPlate,
   ],
   synchronize: true,
+  ssl: {
+    ca: readFileSync('us-east-1-bundle.pem').toString(),
+  },
 };
