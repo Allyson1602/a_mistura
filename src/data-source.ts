@@ -15,6 +15,7 @@ export const DataSource: DataSourceOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  ssl: true,
   entities: [
     Ingredient,
     Plate,
@@ -24,7 +25,4 @@ export const DataSource: DataSourceOptions = {
     IngredientPlate,
   ],
   synchronize: true,
-  ssl: {
-    ca: readFileSync('us-east-1-bundle.pem').toString(),
-  },
 };
