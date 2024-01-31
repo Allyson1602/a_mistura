@@ -6,7 +6,6 @@ import { Plate } from './plates/entities/plate.entity';
 import { Instruction } from './instructions/entities/instruction.entity';
 import { ImagePlate } from './images-plates/entities/image-plate.entity';
 import { IngredientPlate } from './ingredient-plates/entities/ingredient-plate.entity';
-import { readFileSync } from 'fs';
 
 export const DataSource: DataSourceOptions = {
   type: 'postgres',
