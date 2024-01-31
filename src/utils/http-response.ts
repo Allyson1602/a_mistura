@@ -2,9 +2,9 @@ import { EStatusCode } from 'src/enums/status-code';
 import { IHttpResponse } from 'src/types/response';
 
 class HttpResponse {
-  static success<O>(data: O): IHttpResponse<O> {
+  static success<O>(statusCode: EStatusCode, data: O): IHttpResponse<O> {
     const responseValue: IHttpResponse<O> = {
-      statusCode: EStatusCode.OK,
+      statusCode,
       success: true,
       data,
     };
