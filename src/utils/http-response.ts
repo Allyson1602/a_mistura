@@ -2,14 +2,14 @@ import { EStatusCode } from 'src/enums/status-code';
 import { IHttpResponse } from 'src/types/response';
 
 class HttpResponse {
-  static success<O>(data: O): Promise<IHttpResponse<O>> {
+  static success<O>(data: O): IHttpResponse<O> {
     const responseValue: IHttpResponse<O> = {
       statusCode: EStatusCode.OK,
       success: true,
       data,
     };
 
-    return Promise.resolve(responseValue);
+    return responseValue;
   }
 
   static error<O>(
@@ -17,7 +17,7 @@ class HttpResponse {
     message: string,
     messageUser?: string,
     data: O = null,
-  ): Promise<IHttpResponse<O>> {
+  ): IHttpResponse<O> {
     const responseValue: IHttpResponse<O> = {
       statusCode,
       success: false,
@@ -26,7 +26,7 @@ class HttpResponse {
       messageUser,
     };
 
-    return Promise.resolve(responseValue);
+    return responseValue;
   }
 }
 
