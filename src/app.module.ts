@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlatesModule } from './plates/plates.module';
@@ -12,6 +12,8 @@ import { OpenaiModule } from './openai/openai.module';
 import { ImagesPlatesModule } from './images-plates/images-plates.module';
 import { IngredientPlatesModule } from './ingredient-plates/ingredient-plates.module';
 import { BardAiModule } from './bard-ai/bard-ai.module';
+import { CorsMiddleware } from './middleware/cors';
+import { AuthorizationMiddleware } from './middleware/authorization';
 
 @Module({
   imports: [
@@ -32,4 +34,9 @@ import { BardAiModule } from './bard-ai/bard-ai.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CorsMiddleware).forRoutes('*');
+    consumer.apply(AuthorizationMiddleware).forRoutes('*');
+  }
+}
