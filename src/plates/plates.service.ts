@@ -1,59 +1,59 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreatePlateDto } from './dto/create-plate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Plate } from './entities/plate.entity';
 import { Repository } from 'typeorm';
-import { InstructionsService } from 'src/instructions/instructions.service';
-import { ImagesPlatesService } from 'src/images-plates/images-plates.service';
-import { IngredientPlatesService } from 'src/ingredient-plates/ingredient-plates.service';
+import HttpResponse from 'src/utils/http-response';
+import { EStatusCode } from 'src/enums/status-code';
+import { IngredientPlate } from 'src/ingredient-plates/entities/ingredient-plate.entity';
+import { Instruction } from 'src/instructions/entities/instruction.entity';
+import { ImagePlate } from 'src/images-plates/entities/image-plate.entity';
 
 @Injectable()
 export class PlatesService {
   constructor(
     @InjectRepository(Plate)
     private readonly plateRepository: Repository<Plate>,
-    @Inject(IngredientPlatesService)
-    private readonly ingredientplatesService: IngredientPlatesService,
-    @Inject(InstructionsService)
-    private readonly instructionsService: InstructionsService,
-    @Inject(ImagesPlatesService)
-    private readonly imagesPlatesService: ImagesPlatesService,
   ) {}
 
   async create(createPlateDto: CreatePlateDto) {
-    const ingredientsQuery = createPlateDto.ingredientPlates.map(
-      (ingredientItem) => {
-        const newIngredient =
-          this.ingredientplatesService.create(ingredientItem);
+    const newIngredientPlates: IngredientPlate[] =
+      createPlateDto.ingredientPlates.map((ingredientPlateItem) => {
+        const ingredientPlate = new IngredientPlate();
 
-        return newIngredient;
-      },
-    );
+        ingredientPlate.name = ingredientPlateItem.name;
+        ingredientPlate.quantity = ingredientPlateItem.quantity;
 
-    const instructionsQuery = createPlateDto.instructions.map(
+        return ingredientPlate;
+      });
+
+    const newInstructions: Instruction[] = createPlateDto.instructions.map(
       (instructionItem) => {
-        const newInstruction = this.instructionsService.create(instructionItem);
+        const instruction = new Instruction();
 
-        return newInstruction;
+        instruction.description = instructionItem.description;
+        return instruction;
       },
     );
 
-    const imagePlate = this.imagesPlatesService.create(createPlateDto.image);
+    const newImagePlate = new ImagePlate();
+    newImagePlate.description = createPlateDto.image.description;
+    newImagePlate.link = createPlateDto.image.link;
 
     const plate: Plate = new Plate();
     plate.name = createPlateDto.name;
     plate.rating = createPlateDto.rating;
     plate.description = createPlateDto.description;
-    plate.image = await imagePlate;
-    plate.ingredientPlates = await Promise.all(ingredientsQuery);
-    plate.instructions = await Promise.all(instructionsQuery);
+    plate.ingredientPlates = newIngredientPlates;
+    plate.image = newImagePlate;
+    plate.instructions = newInstructions;
 
-    return await this.plateRepository.save(plate);
+    const plateCreated = await this.plateRepository.save(plate);
+    return HttpResponse.success(EStatusCode.OK, plateCreated);
   }
 
   findAll() {
     const plates = this.plateRepository.find();
-
-    return plates;
+    return HttpResponse.success(EStatusCode.OK, plates);
   }
 }

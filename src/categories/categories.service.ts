@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import categoriesData from './categories.data';
 import HttpResponse from 'src/utils/http-response';
 import { IHttpResponse } from 'src/types/response';
+import { EStatusCode } from 'src/enums/status-code';
 
 @Injectable()
 export class CategoriesService {
@@ -32,12 +33,12 @@ export class CategoriesService {
       }
     }
 
-    return HttpResponse.success(200, newCategoriesId);
+    return HttpResponse.success(EStatusCode.CREATED, newCategoriesId);
   }
 
   findAll() {
     const categories = this.categoryRepository.find();
 
-    return HttpResponse.success(200, categories);
+    return HttpResponse.success(EStatusCode.CREATED, categories);
   }
 }

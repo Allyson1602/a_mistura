@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInstructionDto } from './dto/create-instruction.dto';
-import { UpdateInstructionDto } from './dto/update-instruction.dto';
 import { Instruction } from './entities/instruction.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import HttpResponse from 'src/utils/http-response';
+import { EStatusCode } from 'src/enums/status-code';
+import { IHttpResponse } from 'src/types/response';
 
 @Injectable()
 export class InstructionsService {
@@ -14,7 +16,7 @@ export class InstructionsService {
 
   async createMany(
     createInstructionsDto: CreateInstructionDto[],
-  ): Promise<number[]> {
+  ): Promise<IHttpResponse<number[]>> {
     const newInstructions: Instruction[] = createInstructionsDto.map(
       (instructionDto) => {
         const instruction = new Instruction();
@@ -37,7 +39,7 @@ export class InstructionsService {
       return rawItem.id;
     });
 
-    return instructionsId;
+    return HttpResponse.success(EStatusCode.OK, instructionsId);
   }
 
   async create(
@@ -50,21 +52,9 @@ export class InstructionsService {
     return await this.instructionRepository.save(instruction);
   }
 
-  async findAll(): Promise<Instruction[]> {
-    const instructions = this.instructionRepository.find();
+  async findAll(): Promise<IHttpResponse<Instruction[]>> {
+    const instructions = await this.instructionRepository.find();
 
-    return instructions;
+    return HttpResponse.success(EStatusCode.OK, instructions);
   }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} instruction`;
-  // }
-
-  // update(id: number, updateInstructionDto: UpdateInstructionDto) {
-  //   return `This action updates a #${id} instruction`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} instruction`;
-  // }
 }

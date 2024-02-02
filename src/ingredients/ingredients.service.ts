@@ -33,7 +33,7 @@ export class IngredientsService {
       }
     }
 
-    return HttpResponse.success(200, newIngredientsId);
+    return HttpResponse.success(EStatusCode.CREATED, newIngredientsId);
   }
 
   async createMany(

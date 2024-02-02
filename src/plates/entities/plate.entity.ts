@@ -22,7 +22,9 @@ export class Plate {
   @Column()
   name: string;
 
-  @OneToOne(() => ImagePlate)
+  @OneToOne(() => ImagePlate, {
+    cascade: true,
+  })
   @JoinColumn()
   image: ImagePlate;
 
@@ -32,14 +34,18 @@ export class Plate {
   @Column()
   description: string;
 
-  @ManyToMany(() => Category)
-  @JoinTable()
-  categories: Category[];
+  // @ManyToMany(() => Category)
+  // @JoinTable()
+  // categories: Category[];
 
-  @ManyToMany(() => IngredientPlate)
+  @ManyToMany(() => IngredientPlate, {
+    cascade: true,
+  })
   @JoinTable()
   ingredientPlates: IngredientPlate[];
 
-  @OneToMany(() => Instruction, (instruction) => instruction.plate)
+  @OneToMany(() => Instruction, (instruction) => instruction.plate, {
+    cascade: true,
+  })
   instructions: Instruction[];
 }
