@@ -15,7 +15,9 @@ export class IngredientsService {
     private readonly ingredientRepository: Repository<Ingredient>,
   ) {}
 
-  async createInitialIngredients(): Promise<void> {
+  async createInitialIngredients(): Promise<IHttpResponse<number[]>> {
+    const newIngredientsId: number[] = [];
+
     for (const ingredientItem of [...new Set(ingredientsData)]) {
       const hasIngredient = await this.ingredientRepository.findOne({
         where: { name: ingredientItem },
@@ -24,9 +26,14 @@ export class IngredientsService {
       if (!hasIngredient) {
         const newIngredient = { name: ingredientItem };
 
-        await this.ingredientRepository.save(newIngredient);
+        const ingredientCreated = await this.ingredientRepository.save(
+          newIngredient,
+        );
+        newIngredientsId.push(ingredientCreated.id);
       }
     }
+
+    return HttpResponse.success(200, newIngredientsId);
   }
 
   async createMany(

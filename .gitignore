@@ -1,6 +1,6 @@
 .env
 
-# compiled output
+# Compiled output
 /dist
 /node_modules
 .zip
@@ -37,4 +37,7 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 .vercel
+
+# Serverless
 .serverless
+serverless.yml
