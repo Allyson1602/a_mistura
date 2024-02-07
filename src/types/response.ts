@@ -6,3 +6,20 @@ export interface IHttpResponse<T> {
   message?: string;
   messageUser?: string;
 }
+
+export interface IAiResponse {
+  recipes: {
+    name: string;
+    rating: number;
+    description: string;
+    image: {
+      description: string;
+      link: string;
+    };
+    instructions: string[];
+    ingredientsPlate: {
+      name: string;
+      quantity: string;
+    }[];
+  }[];
+}

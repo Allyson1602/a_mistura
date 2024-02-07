@@ -1,83 +1,41 @@
+require('dotenv/config');
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateBardAiDto } from './dto/create-bard-ai.dto';
-import { Instruction } from 'src/instructions/entities/instruction.entity';
-import { IngredientPlate } from 'src/ingredient-plates/entities/ingredient-plate.entity';
-import { Plate } from 'src/plates/entities/plate.entity';
-import { onlyRealValues } from 'src/utils/only-real-values';
-import { ImagesPlatesService } from 'src/images-plates/images-plates.service';
-import { InstructionsService } from 'src/instructions/instructions.service';
 import { PlatesService } from 'src/plates/plates.service';
-import { OpenaiService } from 'src/openai/openai.service';
 import descriptionIAGenerate from 'src/utils/description-ia-generate';
+import { IBardAiResponse } from 'src/types/bard-ai-response';
+import HttpResponse from 'src/utils/http-response';
+import { IAiResponse, IHttpResponse } from 'src/types/response';
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-require('dotenv/config');
 
 @Injectable()
 export class BardAiService {
-  constructor(
-    @Inject(PlatesService)
-    private readonly platesService: PlatesService,
-    @Inject(InstructionsService)
-    private readonly instructionsService: InstructionsService,
-    @Inject(ImagesPlatesService)
-    private readonly imagesPlatesService: ImagesPlatesService,
-    @Inject(OpenaiService)
-    private readonly openaiService: OpenaiService,
-  ) {}
-
   private genAI = new GoogleGenerativeAI(process.env.BARDAI_API_KEY);
 
-  async generatePlate(createBardAiDto: CreateBardAiDto) {
-    const model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+  private async getRecipesBardAi(
+    createBardAiDto: CreateBardAiDto,
+  ): Promise<IAiResponse> {
+    const model = this.genAI.getGenerativeModel({
+      model: process.env.BARDAI_MODEL,
+    });
 
     const prompt = `
-      ${descriptionIAGenerate} 
+      ${descriptionIAGenerate}
       Busque receitas de comida que possuem apenas esses ingredientes: ${createBardAiDto.ingredients.join(
         ', ',
       )}`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
+    const result: IBardAiResponse = await model.generateContent(prompt);
+    const response = result.response;
 
-    const responseBardAi = JSON.parse(response.text());
+    return JSON.parse(response.text());
+  }
 
-    const plates = responseBardAi.recipes.map(async (recipeItem) => {
-      const instructions: Promise<Instruction>[] = recipeItem.instructions.map(
-        (instructionItem) => {
-          return this.instructionsService.create({
-            description: instructionItem,
-          });
-        },
-      );
+  async generatePlate(
+    createBardAiDto: CreateBardAiDto,
+  ): Promise<IHttpResponse<IAiResponse>> {
+    const recipesAi: IAiResponse = await this.getRecipesBardAi(createBardAiDto);
 
-      const ingredientsPlate: Promise<IngredientPlate>[] =
-        recipeItem.ingredientsPlate.map((ingredientPlateItem) => {
-          const newIngredientPlate = new IngredientPlate();
-
-          newIngredientPlate.name = ingredientPlateItem.name;
-          newIngredientPlate.quantity = ingredientPlateItem.quantity;
-
-          return newIngredientPlate;
-        });
-
-      recipeItem.image.link = await this.openaiService.generatePlateImage(
-        recipeItem.description,
-      );
-      const imagePlate = this.imagesPlatesService.create(recipeItem.image);
-
-      const newPlate = new Plate();
-      newPlate.name = recipeItem.name;
-      newPlate.rating = recipeItem.rating;
-      newPlate.image = await imagePlate;
-      newPlate.description = recipeItem.description;
-      newPlate.instructions = onlyRealValues(await Promise.all(instructions));
-      newPlate.ingredientPlates = onlyRealValues(
-        await Promise.all(ingredientsPlate),
-      );
-
-      return this.platesService.create(newPlate);
-    });
-
-    return await Promise.all(plates);
+    return HttpResponse.success(200, recipesAi);
   }
 }

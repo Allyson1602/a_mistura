@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { InstructionsModule } from 'src/instructions/instructions.module';
 import { ImagesPlatesModule } from 'src/images-plates/images-plates.module';
 import { IngredientPlatesModule } from 'src/ingredient-plates/ingredient-plates.module';
+import { BardAiModule } from 'src/bard-ai/bard-ai.module';
+import { OpenaiModule } from 'src/openai/openai.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { IngredientPlatesModule } from 'src/ingredient-plates/ingredient-plates.
     IngredientPlatesModule,
     InstructionsModule,
     ImagesPlatesModule,
+    BardAiModule,
+    OpenaiModule,
   ],
   controllers: [PlatesController],
   providers: [PlatesService],
