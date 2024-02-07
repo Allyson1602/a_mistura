@@ -1,13 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { BardAiService } from './bard-ai.service';
-import { CreateBardAiDto } from './dto/create-bard-ai.dto';
+import { Controller } from '@nestjs/common';
 
 @Controller('bard-ai')
-export class BardAiController {
-  constructor(private readonly bardAiService: BardAiService) {}
-
-  @Post()
-  generatePlate(@Body() createBardAiDto: CreateBardAiDto) {
-    return this.bardAiService.generatePlate(createBardAiDto);
-  }
-}
+export class BardAiController {}

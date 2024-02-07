@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreatePlateDto } from './dto/create-plate.dto';
+import { CreateAiDto, CreatePlateDto } from './dto/create-plate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Plate } from './entities/plate.entity';
 import { Repository } from 'typeorm';
@@ -27,7 +27,7 @@ export class PlatesService {
     private readonly openAiService: OpenaiService,
   ) {}
 
-  async createManyByAi(createAiDto: CreateBardAiDto | CreateOpenaiDto) {
+  async createManyByAi(createAiDto: CreateAiDto) {
     let platesGenerated: IAiResponse | null = null;
 
     if (process.env.AI_ACTIVE === 'BARD_AI') {

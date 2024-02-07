@@ -28,7 +28,11 @@ export class BardAiService {
     const result: IBardAiResponse = await model.generateContent(prompt);
     const response = result.response;
 
-    return JSON.parse(response.text());
+    let responseText: string = response.text();
+    if (responseText && responseText.startsWith('```')) {
+      responseText = responseText.slice(4, responseText.length - 4);
+    }
+    return JSON.parse(responseText);
   }
 
   async generatePlate(
