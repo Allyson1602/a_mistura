@@ -11,11 +11,6 @@ export class IngredientsController {
     return this.ingredientsService.createMany(createIngredientsDto);
   }
 
-  @Post()
-  create(@Body() createIngredientDto: CreateIngredientDto) {
-    return this.ingredientsService.create(createIngredientDto);
-  }
-
   @Get(':name')
   findAll(@Param('name') name: string) {
     return this.ingredientsService.findAll(name);

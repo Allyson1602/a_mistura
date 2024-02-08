@@ -37,6 +37,7 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 .vercel
+.history
 
 # Serverless
 .serverless
