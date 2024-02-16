@@ -10,7 +10,7 @@ import { Instruction } from 'src/instructions/entities/instruction.entity';
 import { ImagePlate } from 'src/images-plates/entities/image-plate.entity';
 import { onlyRealValues } from 'src/utils/only-real-values';
 import { onlyIds } from 'src/utils/only-ids';
-import { IAiResponse } from 'src/types/response';
+import { IAiResponse, IHttpResponse } from 'src/types/response';
 import { BardAiService } from 'src/bard-ai/bard-ai.service';
 import { OpenaiService } from 'src/openai/openai.service';
 import { CreateBardAiDto } from 'src/bard-ai/dto/create-bard-ai.dto';
@@ -27,7 +27,9 @@ export class PlatesService {
     private readonly openAiService: OpenaiService,
   ) {}
 
-  async createManyByAi(createAiDto: CreateAiDto) {
+  async createManyByAi(
+    createAiDto: CreateAiDto,
+  ): Promise<IHttpResponse<Plate[]>> {
     let platesGenerated: IAiResponse | null = null;
 
     if (process.env.AI_ACTIVE === 'BARD_AI') {
@@ -78,7 +80,7 @@ export class PlatesService {
       },
     );
 
-    return onlyIds(await Promise.all(newPlates));
+    return HttpResponse.success(EStatusCode.OK, await Promise.all(newPlates));
   }
 
   async create(createPlateDto: CreatePlateDto) {

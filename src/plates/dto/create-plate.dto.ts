@@ -24,6 +24,5 @@ export class CreatePlateDto {
 }
 
 export class CreateAiDto {
-  @IsArray()
   ingredients: string[];
 }
