@@ -13,7 +13,6 @@ import { ImagesPlatesModule } from './images-plates/images-plates.module';
 import { IngredientPlatesModule } from './ingredient-plates/ingredient-plates.module';
 import { BardAiModule } from './bard-ai/bard-ai.module';
 import { CorsMiddleware } from './middleware/cors';
-import { AuthorizationMiddleware } from './middleware/authorization';
 
 @Module({
   imports: [
@@ -37,6 +36,5 @@ import { AuthorizationMiddleware } from './middleware/authorization';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(CorsMiddleware).forRoutes('*');
-    consumer.apply(AuthorizationMiddleware).forRoutes('*');
   }
 }

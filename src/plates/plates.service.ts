@@ -1,3 +1,4 @@
+require('dotenv/config');
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateAiDto, CreatePlateDto } from './dto/create-plate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
