@@ -27,8 +27,10 @@
     "md5": "^2.3.0",
     "openai": "^4.26.0",
     "pg": "^8.11.3",
-    "serverless-offline": "^13.3.3",
     "ts-loader": "^9.5.1",
     "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "serverless-offline": "^13.3.3"
   }
 }
