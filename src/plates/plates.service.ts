@@ -1,3 +1,4 @@
+require('dotenv/config');
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateAiDto, CreatePlateDto } from './dto/create-plate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -33,11 +34,29 @@ export class PlatesService {
     let platesGenerated: IAiResponse | null = null;
 
     if (process.env.AI_ACTIVE === 'BARD_AI') {
-      const platesBardAi = await this.bardAiService.generatePlate(createAiDto);
-      platesGenerated = platesBardAi.data;
+      // const platesBardAi = await this.bardAiService.generatePlate(createAiDto);
+
+      await this.bardAiService
+        .generatePlate(createAiDto)
+        .then((response) => {
+          platesGenerated = response.data;
+          console.log('platesGenerated', platesGenerated);
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
     } else if (process.env.AI_ACTIVE === 'OPEN_AI') {
-      const platesOpenAi = await this.openAiService.generatePlate(createAiDto);
-      platesGenerated = platesOpenAi.data;
+      // const platesOpenAi = await this.openAiService.generatePlate(createAiDto);
+
+      await this.bardAiService
+        .generatePlate(createAiDto)
+        .then((response) => {
+          platesGenerated = response.data;
+          console.log('platesGenerated', platesGenerated);
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
     }
 
     const newPlates: Promise<Plate>[] = platesGenerated.recipes.map(
